@@ -4,13 +4,20 @@ import path from "path";
 const DATA_DIR = path.join(process.cwd(), "data");
 const STORE_FILE = path.join(DATA_DIR, "vectorstore.json");
 
+// Check if we're in Vercel or explicitly set to ephemeral mode
+const isEphemeral = process.env.VERCEL === "1" || process.env.PERSIST_STORE === "false";
+
 export async function ensureDataDir() {
+  if (isEphemeral) return;
   try {
     await fs.mkdir(DATA_DIR, { recursive: true });
   } catch {}
 }
 
 export async function loadStore() {
+  if (isEphemeral) {
+    return { documents: [], vectors: [] };
+  }
   try {
     const json = await fs.readFile(STORE_FILE, "utf-8");
     return JSON.parse(json);
@@ -20,11 +27,15 @@ export async function loadStore() {
 }
 
 export async function saveStore(store) {
+  if (isEphemeral) return;
   await ensureDataDir();
   await fs.writeFile(STORE_FILE, JSON.stringify(store), "utf-8");
 }
 
 export async function appendToStore(newDocuments, newVectors) {
+  if (isEphemeral) {
+    return { documents: newDocuments, vectors: newVectors };
+  }
   const store = await loadStore();
   store.documents.push(...newDocuments);
   store.vectors.push(...newVectors);

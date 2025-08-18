@@ -44,6 +44,18 @@ export async function askQuestion(body) {
     return { status: 400, data: { error: "Invalid question" } };
   }
   const { question, urls } = parsed.data;
+  
+  // In ephemeral mode (Vercel), require URLs for context
+  const isEphemeral = process.env.VERCEL === "1" || process.env.PERSIST_STORE === "false";
+  if (isEphemeral && (!urls || urls.length === 0)) {
+    return { 
+      status: 400, 
+      data: { 
+        error: "Please provide at least one URL. In production mode, URLs are required for context." 
+      } 
+    };
+  }
+  
   let contexts;
   if (urls && urls.length > 0) {
     // Ephemeral: build context strictly from current input URLs
