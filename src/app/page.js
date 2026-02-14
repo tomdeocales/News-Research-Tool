@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -8,34 +8,6 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [sources, setSources] = useState([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  /*
-  async function handleProcess() {
-    setLoading(true);
-    setAnswer("");
-    setSources([]);
-    try {
-      const body = { urls: urls.filter((u) => u.trim().length > 0), replace };
-      const res = await fetch("/api/process", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(await res.text());
-      await res.json();
-    } catch (e) {
-      console.error(e);
-      alert("Failed to process URLs");
-    } finally {
-      setLoading(false);
-    }
-  }
-*/
 
   async function handleAsk() {
     if (!question.trim()) return;
@@ -62,10 +34,8 @@ export default function Home() {
     }
   }
 
-  if (!mounted) return null;
-
   return (
-    <div className={styles.page} suppressHydrationWarning>
+    <div className={styles.page}>
       <main className={styles.main}>
         <div className={styles.header}>
           <h1 className={styles.title}>RockyBot: News Research Tool</h1>
