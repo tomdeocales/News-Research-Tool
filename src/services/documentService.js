@@ -43,7 +43,12 @@ function validateUrl(input) {
 
 export async function fetchUrlText(url) {
   validateUrl(url);
-  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; NewsResearchBot/1.0)",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    },
+  });
   if (!res.ok) {
     throw new Error(`Failed to fetch URL: ${url}`);
   }

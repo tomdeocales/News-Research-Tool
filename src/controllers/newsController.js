@@ -28,7 +28,7 @@ export async function processUrls(body) {
 
 const QuestionSchema = z.object({
   question: z.string().min(3),
-  urls: z.array(z.string().url()).optional(),
+  urls: z.array(z.string().min(1)).optional(),
 });
 
 function selectTopChunksPerUrl(urls, documents, vectors, queryVector) {
@@ -103,7 +103,8 @@ function buildMessages(question, contexts) {
 export async function askQuestion(body) {
   const parsed = QuestionSchema.safeParse(body);
   if (!parsed.success) {
-    return { status: 400, data: { error: "Invalid question" } };
+    const fieldErrors = parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`);
+    return { status: 400, data: { error: `Validation failed: ${fieldErrors.join("; ")}` } };
   }
   const { question, urls } = parsed.data;
 
