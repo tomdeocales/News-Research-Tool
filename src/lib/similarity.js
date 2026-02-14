@@ -11,5 +11,3 @@ export function topKSimilar(queryVector, vectors, k = 5) {
   scores.sort((a, b) => b.score - a.score);
   return scores.slice(0, Math.min(k, scores.length));
 }
-
-

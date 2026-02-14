@@ -28,5 +28,3 @@ export async function embedTexts(texts) {
   }
   return embeddings;
 }
-
-

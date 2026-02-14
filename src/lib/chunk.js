@@ -4,7 +4,7 @@ const DEFAULT_CHUNK_OVERLAP = 200;
 function splitByDelimiters(text) {
   return text
     .replace(/\r\n/g, "\n")
-    .split(/(?<=[\.!?])\s+|\n{2,}|\n|,\s+/g)
+    .split(/(?<=[.!?])\s+|\n{2,}|\n|,\s+/g)
     .filter((t) => t && t.trim().length > 0);
 }
 
@@ -31,5 +31,3 @@ export function chunkText(text, chunkSize = DEFAULT_CHUNK_SIZE, chunkOverlap = D
   }
   return chunks;
 }
-
-
