@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=18.17.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
@@ -21,7 +21,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
     "globals": "^17.3.0"
   }
